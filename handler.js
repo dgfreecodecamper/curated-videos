@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.getVideos = (event, context, callback) => {
+module.exports.hello = (event, context, callback) => {
 
   //go get the videos and store the result in object
   
