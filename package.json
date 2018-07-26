@@ -1,0 +1,27 @@
+{
+  "name": "curated-videos",
+  "version": "1.0.0",
+  "description": "A list of curated videos from the youtube api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dgfreecodecamper/curated-videos.git"
+  },
+  "author": "dgfreecodecamper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dgfreecodecamper/curated-videos/issues"
+  },
+  "homepage": "https://github.com/dgfreecodecamper/curated-videos#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "googleapis": "^32.0.0",
+    "mongoose": "^5.2.5"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.25.6"
+  }
+}
