@@ -2,12 +2,19 @@
 const { google } = require('googleapis');
 require('dotenv').config({ path: './variables.env' });
 
+//database connection and mongoose model
+const connectToDatabase = require('./db');
+const Video = require('./models/Video');
+
 //authentication
 const youtube = google.youtube({ version: 'v3', auth: process.env.APIKEY });
 
-module.exports.getVideos = (event, context, callback) => {
 
-  const chosenDate = new Date('2018-07-25T00:00:00Z'); //this needs to be calculated
+//lambda function
+module.exports.getVideos = (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  const chosenDate = new Date('2018-07-20T00:00:00Z'); //this needs to be calculated / automated
   const queryString = ['vuejs | reactjs | Angularjs'];
   const searchParameters = {
     //also check out order https://developers.google.com/youtube/v3/docs/search/list
@@ -19,6 +26,7 @@ module.exports.getVideos = (event, context, callback) => {
     type: 'video', //only retreive videos
   };
   
+  //call the youtube API
   youtube.search.list(searchParameters, (err, data) => {
     if (err) {
       console.error('Error: ' + err);
@@ -40,16 +48,25 @@ module.exports.getVideos = (event, context, callback) => {
           channelTitle: ele.snippet.channelTitle
         });
       });
-      //build the response object
-      const response = {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: 'The results of the youtube API search',
-          summary: results,
-          videos: videos, //array of videos
-        }),
-      };
-      callback(null, response);
+      //save the videos array to the database
+      connectToDatabase()
+        .then( () => {
+          Video.create(videos)
+            .then( (thevids) => {
+              const response = {
+                statusCode: 200,
+                body: JSON.stringify({
+                  message: 'The results of the youtube search API have been written to the database',
+                  summary: results,
+                  videos: thevids
+                }),
+              };
+              callback(null, response);
+            })
+            .catch( (err) => {
+              return callback(null, { statusCode: err.statusCode || 500, headers: { 'Content-Type': 'text/plain' }, body: 'Could not create (insert to DB) the videos' });
+            });
+        });
     };
   });
 };

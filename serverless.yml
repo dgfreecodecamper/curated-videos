@@ -59,20 +59,27 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
-          cors: true
+  # hello:
+  #   handler: handler.hello
+  #   events:
+  #     - http:
+  #         path: hello
+  #         method: get
+  #         cors: true
   getVideos:
-    handler: getVideosMod.getVideos
+    handler: getVideoHandler.getVideos
     events:
       - http:
           path: api/getvideolist
           method: get
           cors: true
+  # addtodb:
+  #   handler: vidHandler.addtodb
+  #   events:
+  #     - http:
+  #         path: api/addtodb
+  #         method: post
+  #         cors: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
