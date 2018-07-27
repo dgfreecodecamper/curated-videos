@@ -64,8 +64,15 @@ module.exports.getVideos = (event, context, callback) => {
               callback(null, response);
             })
             .catch( (err) => {
-              return callback(null, { statusCode: err.statusCode || 500, headers: { 'Content-Type': 'text/plain' }, body: 'Could not create (insert to DB) the videos' });
+              callback(null, { 
+                statusCode: err.statusCode || 500, 
+                headers: { 'Content-Type': 'text/plain' }, 
+                body: 'Could not create (insert to DB) the videos' 
+              });
             });
+        })
+        .catch( (err)=>{
+          console.error(err);
         });
     };
   });

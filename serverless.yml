@@ -73,13 +73,13 @@ functions:
           path: api/getvideolist
           method: get
           cors: true
-  # addtodb:
-  #   handler: vidHandler.addtodb
-  #   events:
-  #     - http:
-  #         path: api/addtodb
-  #         method: post
-  #         cors: true
+  pullVideos:
+    handler: serveVideoHandler.pullVideos
+    events:
+      - http:
+          path: api/pullvideos
+          method: get
+          cors: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
