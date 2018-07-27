@@ -13,6 +13,10 @@ module.exports.pullVideos = (event, context, callback) => {
         .then( (videos) => {
           const response = {
             statusCode: 200,
+            headers:{
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+            },
             body: JSON.stringify({ videos: videos })
           };
           callback(null, response)
